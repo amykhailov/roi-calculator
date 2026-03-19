@@ -1,29 +1,33 @@
-import { useState } from 'react';
-
 const PERIOD_OPTIONS = [12, 24, 36];
 
-const DEFAULTS = {
+export const INPUT_DEFAULTS = {
   initialInvestment: 100000,
   monthlyRevenue: 15000,
   monthlyCosts: 5000,
-  period: 12,
 };
 
-export default function InputForm({ onCalculate }) {
-  const [values, setValues] = useState(DEFAULTS);
-
+export default function InputForm({
+  values,
+  onChange,
+  onCalculate,
+  label = 'Investment Details',
+  showPeriod = true,
+  showButton = true,
+  period,
+  onPeriodChange,
+}) {
   const handleChange = (field) => (e) => {
-    setValues((prev) => ({ ...prev, [field]: Number(e.target.value) }));
+    onChange({ ...values, [field]: Number(e.target.value) });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCalculate(values);
+    if (onCalculate) onCalculate();
   };
 
   return (
     <form className="card input-form" onSubmit={handleSubmit}>
-      <h2>Investment Details</h2>
+      <h2>{label}</h2>
 
       <label>
         <span>Initial Investment (£)</span>
@@ -55,18 +59,27 @@ export default function InputForm({ onCalculate }) {
         />
       </label>
 
-      <label>
-        <span>Time Period (months)</span>
-        <select value={values.period} onChange={handleChange('period')}>
-          {PERIOD_OPTIONS.map((p) => (
-            <option key={p} value={p}>
-              {p} months
-            </option>
-          ))}
-        </select>
-      </label>
+      {showPeriod && (
+        <label>
+          <span>Time Period (months)</span>
+          <select
+            value={period !== undefined ? period : values.period}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              if (onPeriodChange) onPeriodChange(val);
+              else onChange({ ...values, period: val });
+            }}
+          >
+            {PERIOD_OPTIONS.map((p) => (
+              <option key={p} value={p}>
+                {p} months
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
-      <button type="submit">Calculate ROI</button>
+      {showButton && <button type="submit">Calculate ROI</button>}
     </form>
   );
 }

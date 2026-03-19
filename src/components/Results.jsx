@@ -1,6 +1,6 @@
 import { formatPounds } from '../utils/calculations';
 
-export default function Results({ results }) {
+export default function Results({ results, label, color }) {
   if (!results) return null;
 
   const { roiPercent, paybackPeriod, totalNetProfit, monthlyNetProfit } = results;
@@ -8,9 +8,12 @@ export default function Results({ results }) {
   const paybackDisplay =
     paybackPeriod === 'Never' ? 'Never' : `${paybackPeriod} months`;
 
+  const style = color ? { borderLeft: `4px solid ${color}` } : undefined;
+
   return (
-    <div className="card results">
+    <div className="card results" style={style}>
       <h2>Results</h2>
+      {label && <p className="results-subtitle">{label}</p>}
       <div className="results-grid">
         <div className="result-item">
           <span className="result-label">ROI</span>

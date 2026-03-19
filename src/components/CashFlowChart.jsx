@@ -7,17 +7,34 @@ import {
   Tooltip,
   ReferenceLine,
   ResponsiveContainer,
+  Legend,
 } from 'recharts';
 import { formatPounds } from '../utils/calculations';
 
-export default function CashFlowChart({ data }) {
-  if (!data || data.length === 0) return null;
+export default function CashFlowChart({
+  dataA,
+  dataB,
+  labelA = 'Scenario A',
+  labelB = 'Scenario B',
+}) {
+  if (!dataA || dataA.length === 0) return null;
+
+  const hasTwoLines = dataB && dataB.length > 0;
+
+  // Merge both datasets by month index
+  const chartData = dataA.map((item, i) => {
+    const point = { month: item.month, cashFlowA: item.cumulativeCashFlow };
+    if (hasTwoLines && dataB[i]) {
+      point.cashFlowB = dataB[i].cumulativeCashFlow;
+    }
+    return point;
+  });
 
   return (
     <div className="card chart-container">
       <h2>Cumulative Cash Flow</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
+        <LineChart data={chartData} margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="month"
@@ -28,18 +45,38 @@ export default function CashFlowChart({ data }) {
             width={90}
           />
           <Tooltip
-            formatter={(value) => [formatPounds(value), 'Cash Flow']}
+            formatter={(value, name) => {
+              const displayName = name === 'cashFlowA' ? labelA : labelB;
+              return [formatPounds(value), displayName];
+            }}
             labelFormatter={(label) => `Month ${label}`}
           />
           <ReferenceLine y={0} stroke="#9ca3af" strokeDasharray="6 4" label="Break-even" />
           <Line
             type="monotone"
-            dataKey="cumulativeCashFlow"
+            dataKey="cashFlowA"
+            name="cashFlowA"
             stroke="#f59e0b"
             strokeWidth={3}
             dot={false}
             activeDot={{ r: 5, fill: '#f59e0b' }}
           />
+          {hasTwoLines && (
+            <Line
+              type="monotone"
+              dataKey="cashFlowB"
+              name="cashFlowB"
+              stroke="#0ea5e9"
+              strokeWidth={3}
+              dot={false}
+              activeDot={{ r: 5, fill: '#0ea5e9' }}
+            />
+          )}
+          {hasTwoLines && (
+            <Legend
+              formatter={(value) => (value === 'cashFlowA' ? labelA : labelB)}
+            />
+          )}
         </LineChart>
       </ResponsiveContainer>
     </div>
