@@ -6,17 +6,40 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ROI Calculator — a Vite + React app for calculating Return on Investment. Supports single-scenario and comparison modes.
 
+## Tech Stack
+
+- **Framework:** React 18 (no TypeScript)
+- **Bundler:** Vite 6
+- **Charting:** Recharts 2.15
+- **Currency:** GBP (£)
+
 ## Status
 
-Core calculator implemented with comparison mode. Users can toggle "Compare two scenarios" to evaluate two investment scenarios side by side with a shared time period, side-by-side result cards, and a combined chart.
+Core calculator implemented with two modes:
+1. **Single mode** (default) — input form on the left, results + chart on the right
+2. **Comparison mode** — toggle "Compare two scenarios" for side-by-side evaluation with shared time period, dual result cards, and a combined two-line chart (amber for Scenario A, sky blue for Scenario B)
 
 ## Architecture
 
-- `src/App.jsx` — main layout, comparison mode state management
-- `src/components/InputForm.jsx` — controlled form component (accepts `values`/`onChange` props)
-- `src/components/Results.jsx` — results card (supports `label`/`color` props for comparison mode)
-- `src/components/CashFlowChart.jsx` — Recharts line chart (supports `dataA`/`dataB` for two scenarios)
-- `src/utils/calculations.js` — `calculateROI()` and `formatPounds()` utilities
+```
+src/
+├── App.jsx                     — main layout, single/comparison mode state
+├── App.css                     — all styles including comparison mode + responsive
+├── main.jsx                    — React entry point
+├── components/
+│   ├── InputForm.jsx           — controlled form (values/onChange props); exports INPUT_DEFAULTS
+│   ├── Results.jsx             — results card (label/color props for comparison accent)
+│   └── CashFlowChart.jsx       — Recharts line chart (dataA/dataB for two scenarios)
+└── utils/
+    └── calculations.js         — calculateROI() and formatPounds() pure functions
+```
+
+## Key Design Decisions
+
+- **InputForm is fully controlled** — parent component owns all form state via `values`/`onChange` props
+- **Comparison mode copies A → B** on activation so Scenario B starts with identical values
+- **Period is shared** between both scenarios in comparison mode (extracted to a standalone dropdown)
+- **Chart merges datasets by array index** — both scenarios share the same period, so array lengths always match
 
 ## Commands
 
