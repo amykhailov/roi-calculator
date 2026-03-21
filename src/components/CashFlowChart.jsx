@@ -48,7 +48,7 @@ export default function CashFlowChart({
     <div className="card chart-container">
       <h2>Cumulative Cash Flow</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData} margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
+        <LineChart data={chartData} margin={{ top: 10, right: 30, left: 10, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="month"
@@ -57,8 +57,8 @@ export default function CashFlowChart({
           />
           <YAxis
             tickFormatter={(v) => formatPounds(v)}
-            width={90}
-            tick={{ fill: axisTickColor }}
+            width={100}
+            tick={{ fill: axisTickColor, fontSize: 12 }}
           />
           <Tooltip
             formatter={(value, name) => {
@@ -79,7 +79,7 @@ export default function CashFlowChart({
             y={0}
             stroke={refLineColor}
             strokeDasharray="6 4"
-            label={{ value: 'Break-even', fill: refLabelColor, position: 'right' }}
+            label={{ value: 'Break-even', fill: refLabelColor, position: 'insideTopRight' }}
           />
           <Line
             type="monotone"

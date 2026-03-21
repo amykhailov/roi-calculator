@@ -364,6 +364,10 @@ header p {
 }
 
 /* ── Chart ── */
+.chart-container {
+  overflow: hidden;
+}
+
 .chart-container h2 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
