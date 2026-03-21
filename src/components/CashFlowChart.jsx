@@ -56,20 +56,20 @@ export default function CashFlowChart({
             type="monotone"
             dataKey="cashFlowA"
             name="cashFlowA"
-            stroke="#f59e0b"
+            stroke="#00A9E0"
             strokeWidth={3}
             dot={false}
-            activeDot={{ r: 5, fill: '#f59e0b' }}
+            activeDot={{ r: 5, fill: '#00A9E0' }}
           />
           {hasTwoLines && (
             <Line
               type="monotone"
               dataKey="cashFlowB"
               name="cashFlowB"
-              stroke="#0ea5e9"
+              stroke="#39B54A"
               strokeWidth={3}
               dot={false}
-              activeDot={{ r: 5, fill: '#0ea5e9' }}
+              activeDot={{ r: 5, fill: '#39B54A' }}
             />
           )}
           {hasTwoLines && (

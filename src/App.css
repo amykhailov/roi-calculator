@@ -7,7 +7,7 @@
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #1f2937;
-  background: #fffbeb;
+  background: #f0f4f8;
   line-height: 1.5;
 }
 
@@ -24,7 +24,7 @@ header {
 
 header h1 {
   font-size: 2rem;
-  color: #92400e;
+  color: #0B2D71;
 }
 
 header p {
@@ -58,7 +58,7 @@ header p {
 .input-form h2 {
   font-size: 1.25rem;
   margin-bottom: 1.25rem;
-  color: #92400e;
+  color: #0B2D71;
 }
 
 .input-form label {
@@ -81,15 +81,15 @@ header p {
   border-radius: 8px;
   font-size: 1rem;
   color: #1f2937;
-  background: #fefce8;
+  background: #f7fafc;
   transition: border-color 0.15s;
 }
 
 .input-form input:focus,
 .input-form select:focus {
   outline: none;
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+  border-color: #00A9E0;
+  box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.15);
 }
 
 .input-form button {
@@ -98,7 +98,7 @@ header p {
   margin-top: 0.5rem;
   border: none;
   border-radius: 8px;
-  background: #f59e0b;
+  background: #00A9E0;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -107,18 +107,42 @@ header p {
 }
 
 .input-form button:hover {
-  background: #d97706;
+  background: #0090c1;
 }
 
 .input-form button:active {
-  background: #b45309;
+  background: #007a9e;
+}
+
+.input-form button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.input-form button:disabled:hover {
+  background: #9ca3af;
+}
+
+/* Validation errors */
+.input-error {
+  border-color: #dc2626 !important;
+}
+
+.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+}
+
+.error-message {
+  font-size: 0.8rem;
+  color: #dc2626;
+  margin-top: 0.25rem;
 }
 
 /* Results */
 .results h2 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #92400e;
+  color: #0B2D71;
 }
 
 .results-grid {
@@ -131,7 +155,7 @@ header p {
   display: flex;
   flex-direction: column;
   padding: 0.75rem;
-  background: #fffbeb;
+  background: #edf2f7;
   border-radius: 8px;
 }
 
@@ -162,7 +186,7 @@ header p {
 .chart-container h2 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #92400e;
+  color: #0B2D71;
 }
 
 /* Placeholder */
@@ -220,7 +244,7 @@ header p {
 }
 
 .toggle-label input:checked + .toggle-switch {
-  background: #f59e0b;
+  background: #00A9E0;
 }
 
 .toggle-label input:checked + .toggle-switch::after {
@@ -254,13 +278,13 @@ header p {
   border-radius: 8px;
   font-size: 1rem;
   color: #1f2937;
-  background: #fefce8;
+  background: #f7fafc;
 }
 
 .shared-period select:focus {
   outline: none;
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+  border-color: #00A9E0;
+  box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.15);
 }
 
 .forms-row {
@@ -280,7 +304,7 @@ header p {
   padding: 0.75rem;
   border: none;
   border-radius: 8px;
-  background: #f59e0b;
+  background: #00A9E0;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -289,11 +313,20 @@ header p {
 }
 
 .calculate-btn:hover {
-  background: #d97706;
+  background: #0090c1;
 }
 
 .calculate-btn:active {
-  background: #b45309;
+  background: #007a9e;
+}
+
+.calculate-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.calculate-btn:disabled:hover {
+  background: #9ca3af;
 }
 
 /* Results subtitle */

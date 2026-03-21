@@ -15,9 +15,12 @@ export default function InputForm({
   showButton = true,
   period,
   onPeriodChange,
+  errors = {},
+  disabled = false,
 }) {
   const handleChange = (field) => (e) => {
-    onChange({ ...values, [field]: Number(e.target.value) });
+    const raw = e.target.value;
+    onChange({ ...values, [field]: raw === '' ? '' : Number(raw) });
   };
 
   const handleSubmit = (e) => {
@@ -36,7 +39,11 @@ export default function InputForm({
           min="0"
           value={values.initialInvestment}
           onChange={handleChange('initialInvestment')}
+          className={errors.initialInvestment ? 'input-error' : ''}
         />
+        {errors.initialInvestment && (
+          <span className="error-message">{errors.initialInvestment}</span>
+        )}
       </label>
 
       <label>
@@ -46,7 +53,11 @@ export default function InputForm({
           min="0"
           value={values.monthlyRevenue}
           onChange={handleChange('monthlyRevenue')}
+          className={errors.monthlyRevenue ? 'input-error' : ''}
         />
+        {errors.monthlyRevenue && (
+          <span className="error-message">{errors.monthlyRevenue}</span>
+        )}
       </label>
 
       <label>
@@ -56,7 +67,11 @@ export default function InputForm({
           min="0"
           value={values.monthlyCosts}
           onChange={handleChange('monthlyCosts')}
+          className={errors.monthlyCosts ? 'input-error' : ''}
         />
+        {errors.monthlyCosts && (
+          <span className="error-message">{errors.monthlyCosts}</span>
+        )}
       </label>
 
       {showPeriod && (
@@ -79,7 +94,11 @@ export default function InputForm({
         </label>
       )}
 
-      {showButton && <button type="submit">Calculate ROI</button>}
+      {showButton && (
+        <button type="submit" disabled={disabled}>
+          Calculate ROI
+        </button>
+      )}
     </form>
   );
 }

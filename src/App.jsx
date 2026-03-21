@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { calculateROI } from './utils/calculations';
+import { validateInputs, isValid } from './utils/validation';
 import InputForm, { INPUT_DEFAULTS } from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
 import './App.css';
 
-const COLOR_A = '#f59e0b';
-const COLOR_B = '#0ea5e9';
+const COLOR_A = '#00A9E0';
+const COLOR_B = '#39B54A';
 
 function App() {
   const [compareMode, setCompareMode] = useState(false);
@@ -14,6 +15,9 @@ function App() {
   const [valuesB, setValuesB] = useState({ ...INPUT_DEFAULTS, period: 12 });
   const [sharedPeriod, setSharedPeriod] = useState(12);
   const [results, setResults] = useState(null);
+
+  const errorsA = validateInputs(valuesA);
+  const errorsB = validateInputs(valuesB);
 
   const handleToggleCompare = () => {
     if (!compareMode) {
@@ -68,6 +72,8 @@ function App() {
               values={valuesA}
               onChange={setValuesA}
               onCalculate={handleSingleCalculate}
+              errors={errorsA}
+              disabled={!isValid(errorsA)}
             />
           </div>
           <div className="right-column">
@@ -88,6 +94,8 @@ function App() {
   }
 
   // Comparison mode
+  const compareDisabled = !isValid(errorsA) || !isValid(errorsB);
+
   return (
     <div className="app">
       <header>
@@ -126,6 +134,7 @@ function App() {
             label="Scenario A"
             showPeriod={false}
             showButton={false}
+            errors={errorsA}
           />
           <InputForm
             values={valuesB}
@@ -133,10 +142,15 @@ function App() {
             label="Scenario B"
             showPeriod={false}
             showButton={false}
+            errors={errorsB}
           />
         </div>
 
-        <button className="calculate-btn" onClick={handleCalculate}>
+        <button
+          className="calculate-btn"
+          onClick={handleCalculate}
+          disabled={compareDisabled}
+        >
           Calculate ROI
         </button>
 

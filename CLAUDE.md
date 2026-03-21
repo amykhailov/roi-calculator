@@ -12,12 +12,13 @@ ROI Calculator — a Vite + React app for calculating Return on Investment. Supp
 - **Bundler:** Vite 6
 - **Charting:** Recharts 2.15
 - **Currency:** GBP (£)
+- **Brand:** EPAM color scheme
 
 ## Status
 
 Core calculator implemented with two modes:
 1. **Single mode** (default) — input form on the left, results + chart on the right
-2. **Comparison mode** — toggle "Compare two scenarios" for side-by-side evaluation with shared time period, dual result cards, and a combined two-line chart (amber for Scenario A, sky blue for Scenario B)
+2. **Comparison mode** — toggle "Compare two scenarios" for side-by-side evaluation with shared time period, dual result cards, and a combined two-line chart (EPAM blue for Scenario A, EPAM green for Scenario B)
 
 ## Architecture
 
@@ -31,7 +32,8 @@ src/
 │   ├── Results.jsx             — results card (label/color props for comparison accent)
 │   └── CashFlowChart.jsx       — Recharts line chart (dataA/dataB for two scenarios)
 └── utils/
-    └── calculations.js         — calculateROI() and formatPounds() pure functions
+    ├── calculations.js         — calculateROI() and formatPounds() pure functions
+    └── validation.js           — validateInputs() and isValid() for real-time form validation
 ```
 
 ## Key Design Decisions
@@ -40,6 +42,8 @@ src/
 - **Comparison mode copies A → B** on activation so Scenario B starts with identical values
 - **Period is shared** between both scenarios in comparison mode (extracted to a standalone dropdown)
 - **Chart merges datasets by array index** — both scenarios share the same period, so array lengths always match
+- **EPAM brand colors** — primary blue `#00A9E0`, dark blue `#0B2D71` (headings), green `#39B54A` (Scenario B / positive accents)
+- **Real-time validation** — errors derived on every render (no extra state); Calculate button disabled until all fields valid. Rules: investment >= £1,000, revenue > £0, costs >= 0, no empty fields
 
 ## Commands
 
