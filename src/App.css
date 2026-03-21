@@ -1,3 +1,112 @@
+/* ── CSS Variables (Light theme defaults) ── */
+:root {
+  /* Surfaces */
+  --color-page-bg: #f0f4f8;
+  --color-card-bg: #fff;
+  --color-input-bg: #f7fafc;
+  --color-result-item-bg: #edf2f7;
+  --color-table-header-bg: #f3f4f6;
+  --color-table-stripe-bg: #f9fafb;
+  --color-scenario-a-tint: #e0f4fd;
+  --color-scenario-b-tint: #e6f9ea;
+
+  /* Text */
+  --color-text-primary: #1f2937;
+  --color-text-label: #57534e;
+  --color-text-muted: #78716c;
+
+  /* Headings */
+  --color-heading: #0B2D71;
+
+  /* Accents */
+  --color-accent: #00A9E0;
+  --color-accent-hover: #0090c1;
+  --color-accent-active: #007a9e;
+  --color-accent-b: #39B54A;
+
+  /* Borders */
+  --color-border: #d6d3d1;
+  --color-table-border: #e5e7eb;
+
+  /* Semantic */
+  --color-positive: #16a34a;
+  --color-negative: #dc2626;
+  --color-breakeven: #7c3aed;
+  --color-disabled: #9ca3af;
+
+  /* Focus ring */
+  --color-focus-ring: rgba(0, 169, 224, 0.15);
+  --color-error-ring: rgba(220, 38, 38, 0.15);
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+
+  /* Toggle switch */
+  --color-toggle-bg: #d6d3d1;
+  --color-toggle-knob: #fff;
+
+  /* Theme toggle button */
+  --color-theme-toggle-bg: var(--color-card-bg);
+  --color-theme-toggle-border: var(--color-border);
+  --color-theme-toggle-icon: var(--color-text-label);
+}
+
+/* ── Dark theme overrides ── */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-page-bg: #0f1419;
+  --color-card-bg: #1a2332;
+  --color-input-bg: #212d3f;
+  --color-result-item-bg: #212d3f;
+  --color-table-header-bg: #1e2a3a;
+  --color-table-stripe-bg: #162030;
+  --color-scenario-a-tint: #0d2a3e;
+  --color-scenario-b-tint: #0f2e1a;
+
+  /* Text */
+  --color-text-primary: #e5e7eb;
+  --color-text-label: #a8a29e;
+  --color-text-muted: #9ca3af;
+
+  /* Headings */
+  --color-heading: #5BB8F5;
+
+  /* Accents */
+  --color-accent: #1FBFEF;
+  --color-accent-hover: #17a8d4;
+  --color-accent-active: #1294bb;
+  --color-accent-b: #4DCC5E;
+
+  /* Borders */
+  --color-border: #2d3a4d;
+  --color-table-border: #2d3a4d;
+
+  /* Semantic */
+  --color-positive: #22c55e;
+  --color-negative: #ef4444;
+  --color-breakeven: #8b5cf6;
+  --color-disabled: #6b7280;
+
+  /* Focus ring */
+  --color-focus-ring: rgba(31, 191, 239, 0.2);
+  --color-error-ring: rgba(239, 68, 68, 0.2);
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+
+  /* Toggle switch */
+  --color-toggle-bg: #4b5563;
+  --color-toggle-knob: #e5e7eb;
+
+  /* Theme toggle button */
+  --color-theme-toggle-bg: var(--color-card-bg);
+  --color-theme-toggle-border: var(--color-border);
+  --color-theme-toggle-icon: #fbbf24;
+}
+
+/* ── Reset ── */
 * {
   margin: 0;
   padding: 0;
@@ -6,15 +115,17 @@
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #1f2937;
-  background: #f0f4f8;
+  color: var(--color-text-primary);
+  background: var(--color-page-bg);
   line-height: 1.5;
+  transition: background 0.3s, color 0.3s;
 }
 
 .app {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
+  position: relative;
 }
 
 header {
@@ -24,15 +135,43 @@ header {
 
 header h1 {
   font-size: 2rem;
-  color: #0B2D71;
+  color: var(--color-heading);
 }
 
 header p {
-  color: #78716c;
+  color: var(--color-text-muted);
   margin-top: 0.25rem;
 }
 
-/* Layout */
+/* ── Theme Toggle ── */
+.theme-toggle {
+  position: absolute;
+  top: 2rem;
+  right: 1.5rem;
+  background: var(--color-theme-toggle-bg);
+  border: 1px solid var(--color-theme-toggle-border);
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.15s;
+  z-index: 10;
+}
+
+.theme-toggle:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle svg {
+  color: var(--color-theme-toggle-icon);
+  transition: color 0.3s;
+}
+
+/* ── Layout ── */
 .layout {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -46,19 +185,20 @@ header p {
   gap: 1.5rem;
 }
 
-/* Card */
+/* ── Card ── */
 .card {
-  background: #fff;
+  background: var(--color-card-bg);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* Input Form */
+/* ── Input Form ── */
 .input-form h2 {
   font-size: 1.25rem;
   margin-bottom: 1.25rem;
-  color: #0B2D71;
+  color: var(--color-heading);
 }
 
 .input-form label {
@@ -71,25 +211,25 @@ header p {
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.35rem;
-  color: #57534e;
+  color: var(--color-text-label);
 }
 
 .input-form input,
 .input-form select {
   padding: 0.6rem 0.75rem;
-  border: 1px solid #d6d3d1;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 1rem;
-  color: #1f2937;
-  background: #f7fafc;
+  color: var(--color-text-primary);
+  background: var(--color-input-bg);
   transition: border-color 0.15s;
 }
 
 .input-form input:focus,
 .input-form select:focus {
   outline: none;
-  border-color: #00A9E0;
-  box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.15);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .input-form button {
@@ -98,7 +238,7 @@ header p {
   margin-top: 0.5rem;
   border: none;
   border-radius: 8px;
-  background: #00A9E0;
+  background: var(--color-accent);
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -107,42 +247,42 @@ header p {
 }
 
 .input-form button:hover {
-  background: #0090c1;
+  background: var(--color-accent-hover);
 }
 
 .input-form button:active {
-  background: #007a9e;
+  background: var(--color-accent-active);
 }
 
 .input-form button:disabled {
-  background: #9ca3af;
+  background: var(--color-disabled);
   cursor: not-allowed;
 }
 
 .input-form button:disabled:hover {
-  background: #9ca3af;
+  background: var(--color-disabled);
 }
 
-/* Validation errors */
+/* ── Validation errors ── */
 .input-error {
-  border-color: #dc2626 !important;
+  border-color: var(--color-negative) !important;
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+  box-shadow: 0 0 0 3px var(--color-error-ring) !important;
 }
 
 .error-message {
   font-size: 0.8rem;
-  color: #dc2626;
+  color: var(--color-negative);
   margin-top: 0.25rem;
 }
 
-/* Results */
+/* ── Results ── */
 .results h2 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #0B2D71;
+  color: var(--color-heading);
 }
 
 .results-grid {
@@ -155,14 +295,14 @@ header p {
   display: flex;
   flex-direction: column;
   padding: 0.75rem;
-  background: #edf2f7;
+  background: var(--color-result-item-bg);
   border-radius: 8px;
 }
 
 .result-label {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #78716c;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -170,36 +310,36 @@ header p {
 .result-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin-top: 0.25rem;
 }
 
 .result-value.positive {
-  color: #16a34a;
+  color: var(--color-positive);
 }
 
 .result-value.negative {
-  color: #dc2626;
+  color: var(--color-negative);
 }
 
-/* Chart */
+/* ── Chart ── */
 .chart-container h2 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #0B2D71;
+  color: var(--color-heading);
 }
 
-/* Placeholder */
+/* ── Placeholder ── */
 .placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 200px;
-  color: #78716c;
+  color: var(--color-text-muted);
   text-align: center;
 }
 
-/* Compare toggle */
+/* ── Compare toggle ── */
 .compare-toggle {
   display: flex;
   justify-content: center;
@@ -212,7 +352,7 @@ header p {
   gap: 0.6rem;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #57534e;
+  color: var(--color-text-label);
   cursor: pointer;
   user-select: none;
 }
@@ -225,7 +365,7 @@ header p {
   position: relative;
   width: 44px;
   height: 24px;
-  background: #d6d3d1;
+  background: var(--color-toggle-bg);
   border-radius: 12px;
   transition: background 0.2s;
   flex-shrink: 0;
@@ -238,20 +378,20 @@ header p {
   left: 3px;
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: var(--color-toggle-knob);
   border-radius: 50%;
   transition: transform 0.2s;
 }
 
 .toggle-label input:checked + .toggle-switch {
-  background: #00A9E0;
+  background: var(--color-accent);
 }
 
 .toggle-label input:checked + .toggle-switch::after {
   transform: translateX(20px);
 }
 
-/* Comparison layout */
+/* ── Comparison layout ── */
 .layout-compare {
   display: flex;
   flex-direction: column;
@@ -269,22 +409,22 @@ header p {
   gap: 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #57534e;
+  color: var(--color-text-label);
 }
 
 .shared-period select {
   padding: 0.5rem 0.75rem;
-  border: 1px solid #d6d3d1;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 1rem;
-  color: #1f2937;
-  background: #f7fafc;
+  color: var(--color-text-primary);
+  background: var(--color-input-bg);
 }
 
 .shared-period select:focus {
   outline: none;
-  border-color: #00A9E0;
-  box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.15);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .forms-row {
@@ -304,7 +444,7 @@ header p {
   padding: 0.75rem;
   border: none;
   border-radius: 8px;
-  background: #00A9E0;
+  background: var(--color-accent);
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -313,36 +453,36 @@ header p {
 }
 
 .calculate-btn:hover {
-  background: #0090c1;
+  background: var(--color-accent-hover);
 }
 
 .calculate-btn:active {
-  background: #007a9e;
+  background: var(--color-accent-active);
 }
 
 .calculate-btn:disabled {
-  background: #9ca3af;
+  background: var(--color-disabled);
   cursor: not-allowed;
 }
 
 .calculate-btn:disabled:hover {
-  background: #9ca3af;
+  background: var(--color-disabled);
 }
 
-/* Results subtitle */
+/* ── Results subtitle ── */
 .results-subtitle {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #78716c;
+  color: var(--color-text-muted);
   margin-top: -0.5rem;
   margin-bottom: 1rem;
 }
 
-/* Monthly Breakdown Table */
+/* ── Monthly Breakdown Table ── */
 .breakdown-table-wrapper h2 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #0B2D71;
+  color: var(--color-heading);
 }
 
 .table-scroll {
@@ -359,7 +499,7 @@ header p {
 .breakdown-table td {
   text-align: right;
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-table-border);
   font-size: 0.875rem;
   white-space: nowrap;
 }
@@ -370,29 +510,29 @@ header p {
 }
 
 .breakdown-table thead th {
-  background: #f3f4f6;
+  background: var(--color-table-header-bg);
   position: sticky;
   top: 0;
   font-weight: 600;
 }
 
 .scenario-header-a {
-  background: #e0f4fd !important;
+  background: var(--color-scenario-a-tint) !important;
   text-align: center !important;
 }
 
 .scenario-header-b {
-  background: #e6f9ea !important;
+  background: var(--color-scenario-b-tint) !important;
   text-align: center !important;
 }
 
 .breakdown-table tbody tr:nth-child(even) {
-  background: #f9fafb;
+  background: var(--color-table-stripe-bg);
 }
 
 tr.breakeven-row,
 tr.breakeven-row td {
-  background: #7c3aed;
+  background: var(--color-breakeven);
   color: #fff;
   font-weight: 700;
 }
@@ -401,10 +541,10 @@ tr.breakeven-row td {
   display: block;
   margin: 0 auto;
   padding: 0.5rem 1.5rem;
-  border: 2px solid #00A9E0;
+  border: 2px solid var(--color-accent);
   border-radius: 8px;
   background: transparent;
-  color: #00A9E0;
+  color: var(--color-accent);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -412,11 +552,11 @@ tr.breakeven-row td {
 }
 
 .toggle-breakdown-btn:hover {
-  background: #00A9E0;
+  background: var(--color-accent);
   color: #fff;
 }
 
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
@@ -436,5 +576,10 @@ tr.breakeven-row td {
 
   .breakdown-table {
     min-width: 900px;
+  }
+
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
   }
 }

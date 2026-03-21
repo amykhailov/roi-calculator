@@ -1,22 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { calculateROI } from './utils/calculations';
 import { validateInputs, isValid } from './utils/validation';
 import InputForm, { INPUT_DEFAULTS } from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
 import MonthlyBreakdown from './components/MonthlyBreakdown';
+import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 
-const COLOR_A = '#00A9E0';
-const COLOR_B = '#39B54A';
-
 function App() {
+  const [theme, setTheme] = useState('light');
   const [compareMode, setCompareMode] = useState(false);
   const [valuesA, setValuesA] = useState({ ...INPUT_DEFAULTS, period: 12 });
   const [valuesB, setValuesB] = useState({ ...INPUT_DEFAULTS, period: 12 });
   const [sharedPeriod, setSharedPeriod] = useState(12);
   const [results, setResults] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
+
+  const colorA = theme === 'dark' ? '#1FBFEF' : '#00A9E0';
+  const colorB = theme === 'dark' ? '#4DCC5E' : '#39B54A';
 
   const errorsA = validateInputs(valuesA);
   const errorsB = validateInputs(valuesB);
@@ -51,6 +59,7 @@ function App() {
   if (!compareMode) {
     return (
       <div className="app">
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
         <header>
           <h1>ROI Calculator</h1>
           <p>Calculate your Return on Investment</p>
@@ -82,7 +91,12 @@ function App() {
             {results ? (
               <>
                 <Results results={results.a} />
-                <CashFlowChart dataA={results.a.cashFlowData} />
+                <CashFlowChart
+                  dataA={results.a.cashFlowData}
+                  colorA={colorA}
+                  colorB={colorB}
+                  theme={theme}
+                />
                 <button
                   className="toggle-breakdown-btn"
                   onClick={() => setShowBreakdown(!showBreakdown)}
@@ -109,6 +123,7 @@ function App() {
 
   return (
     <div className="app">
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <header>
         <h1>ROI Calculator</h1>
         <p>Calculate your Return on Investment</p>
@@ -168,14 +183,17 @@ function App() {
         {results && (
           <>
             <div className="results-row">
-              <Results results={results.a} label="Scenario A" color={COLOR_A} />
-              <Results results={results.b} label="Scenario B" color={COLOR_B} />
+              <Results results={results.a} label="Scenario A" color={colorA} />
+              <Results results={results.b} label="Scenario B" color={colorB} />
             </div>
             <CashFlowChart
               dataA={results.a.cashFlowData}
               dataB={results.b.cashFlowData}
               labelA="Scenario A"
               labelB="Scenario B"
+              colorA={colorA}
+              colorB={colorB}
+              theme={theme}
             />
             <button
               className="toggle-breakdown-btn"
