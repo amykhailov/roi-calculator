@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { calculateROI } from './utils/calculations';
 import { validateInputs, isValid } from './utils/validation';
+import { exportPdf } from './utils/exportPdf';
 import InputForm, { INPUT_DEFAULTS } from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
@@ -16,6 +17,9 @@ function App() {
   const [sharedPeriod, setSharedPeriod] = useState(12);
   const [results, setResults] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(true);
+  const exportRef = useRef(null);
+
+  const handleExport = () => exportPdf(exportRef.current);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -59,7 +63,12 @@ function App() {
   if (!compareMode) {
     return (
       <div className="app">
-        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        <div className="top-right-actions">
+          <button className="export-btn" disabled={!results} onClick={handleExport}>
+            Export PDF
+          </button>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
         <header>
           <h1>ROI Calculator</h1>
           <p>Calculate your Return on Investment</p>
@@ -90,13 +99,15 @@ function App() {
           <div className="right-column">
             {results ? (
               <>
-                <Results results={results.a} />
-                <CashFlowChart
-                  dataA={results.a.cashFlowData}
-                  colorA={colorA}
-                  colorB={colorB}
-                  theme={theme}
-                />
+                <div ref={exportRef} className="export-target">
+                  <Results results={results.a} />
+                  <CashFlowChart
+                    dataA={results.a.cashFlowData}
+                    colorA={colorA}
+                    colorB={colorB}
+                    theme={theme}
+                  />
+                </div>
                 <button
                   className="toggle-breakdown-btn"
                   onClick={() => setShowBreakdown(!showBreakdown)}
@@ -123,7 +134,12 @@ function App() {
 
   return (
     <div className="app">
-      <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      <div className="top-right-actions">
+        <button className="export-btn" disabled={!results} onClick={handleExport}>
+          Export PDF
+        </button>
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      </div>
       <header>
         <h1>ROI Calculator</h1>
         <p>Calculate your Return on Investment</p>
@@ -182,19 +198,21 @@ function App() {
 
         {results && (
           <>
-            <div className="results-row">
-              <Results results={results.a} label="Scenario A" color={colorA} />
-              <Results results={results.b} label="Scenario B" color={colorB} />
+            <div ref={exportRef} className="export-target">
+              <div className="results-row">
+                <Results results={results.a} label="Scenario A" color={colorA} />
+                <Results results={results.b} label="Scenario B" color={colorB} />
+              </div>
+              <CashFlowChart
+                dataA={results.a.cashFlowData}
+                dataB={results.b.cashFlowData}
+                labelA="Scenario A"
+                labelB="Scenario B"
+                colorA={colorA}
+                colorB={colorB}
+                theme={theme}
+              />
             </div>
-            <CashFlowChart
-              dataA={results.a.cashFlowData}
-              dataB={results.b.cashFlowData}
-              labelA="Scenario A"
-              labelB="Scenario B"
-              colorA={colorA}
-              colorB={colorB}
-              theme={theme}
-            />
             <button
               className="toggle-breakdown-btn"
               onClick={() => setShowBreakdown(!showBreakdown)}

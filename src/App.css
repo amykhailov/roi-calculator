@@ -143,11 +143,53 @@ header p {
   margin-top: 0.25rem;
 }
 
-/* ── Theme Toggle ── */
-.theme-toggle {
+/* ── Export PDF Button ── */
+.export-btn {
+  height: 40px;
+  padding: 0 1rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  box-shadow: var(--shadow-card);
+}
+
+.export-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.export-btn:disabled {
+  border-color: var(--color-disabled);
+  color: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+/* ── Export Target ── */
+.export-target {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Top-right actions (Export + Theme Toggle) ── */
+.top-right-actions {
   position: absolute;
   top: 2rem;
   right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle {
   background: var(--color-theme-toggle-bg);
   border: 1px solid var(--color-theme-toggle-border);
   border-radius: 10px;
@@ -159,7 +201,6 @@ header p {
   cursor: pointer;
   box-shadow: var(--shadow-card);
   transition: background 0.3s, border-color 0.3s, box-shadow 0.15s;
-  z-index: 10;
 }
 
 .theme-toggle:hover {
@@ -578,7 +619,7 @@ tr.breakeven-row td {
     min-width: 900px;
   }
 
-  .theme-toggle {
+  .top-right-actions {
     top: 1rem;
     right: 1rem;
   }

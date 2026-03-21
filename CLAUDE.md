@@ -11,6 +11,7 @@ ROI Calculator — a Vite + React app for calculating Return on Investment. Supp
 - **Framework:** React 18 (no TypeScript)
 - **Bundler:** Vite 6
 - **Charting:** Recharts 2.15
+- **PDF Export:** html2canvas + jsPDF (client-side)
 - **Currency:** GBP (£)
 - **Brand:** EPAM color scheme
 
@@ -20,6 +21,7 @@ Core calculator implemented with two modes:
 1. **Single mode** (default) — input form on the left, results + chart on the right
 2. **Comparison mode** — toggle "Compare two scenarios" for side-by-side evaluation with shared time period, dual result cards, and a combined two-line chart (EPAM blue for Scenario A, EPAM green for Scenario B)
 3. **Dark/Light theme** — toggle button (sun/moon icon) in top-right corner; session-only persistence (useState, no localStorage); all colors via CSS custom properties
+4. **PDF export** — "Export PDF" button in header, disabled until results exist. Uses html2canvas + jsPDF to capture results + chart with branded heading and date
 
 ## Architecture
 
@@ -36,7 +38,8 @@ src/
 │   └── MonthlyBreakdown.jsx    — month-by-month table with breakeven highlighting
 └── utils/
     ├── calculations.js         — calculateROI() and formatPounds() pure functions
-    └── validation.js           — validateInputs() and isValid() for real-time form validation
+    ├── validation.js           — validateInputs() and isValid() for real-time form validation
+    └── exportPdf.js            — exportPdf(element) — captures DOM to PDF with branded heading/date
 ```
 
 ## Key Design Decisions
@@ -50,6 +53,7 @@ src/
 - **Theme toggle** — session-only (useState), no localStorage. Sun/moon icon in top-right, positioned absolute within `.app`
 - **Real-time validation** — errors derived on every render (no extra state); Calculate button disabled until all fields valid. Rules: investment >= £1,000, revenue > £0, costs >= 0, no empty fields
 - **Monthly breakdown table** — toggleable (on by default), shows month-by-month revenue/costs/net profit/cumulative CF; breakeven month highlighted with purple row (`#7c3aed`); comparison mode uses single combined table with grouped headers
+- **PDF export** — `exportPdf(element)` captures a ref'd DOM region (results + chart) via html2canvas (scale: 2), then places the image into a jsPDF A4 document below a text heading ("ROI Analysis Report") and date. Monthly breakdown table is excluded from the PDF. Button is in the header, disabled when no results exist
 
 ## Workflow Rules
 
