@@ -4,6 +4,7 @@ import { validateInputs, isValid } from './utils/validation';
 import InputForm, { INPUT_DEFAULTS } from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
+import MonthlyBreakdown from './components/MonthlyBreakdown';
 import './App.css';
 
 const COLOR_A = '#00A9E0';
@@ -15,6 +16,7 @@ function App() {
   const [valuesB, setValuesB] = useState({ ...INPUT_DEFAULTS, period: 12 });
   const [sharedPeriod, setSharedPeriod] = useState(12);
   const [results, setResults] = useState(null);
+  const [showBreakdown, setShowBreakdown] = useState(true);
 
   const errorsA = validateInputs(valuesA);
   const errorsB = validateInputs(valuesB);
@@ -81,6 +83,15 @@ function App() {
               <>
                 <Results results={results.a} />
                 <CashFlowChart dataA={results.a.cashFlowData} />
+                <button
+                  className="toggle-breakdown-btn"
+                  onClick={() => setShowBreakdown(!showBreakdown)}
+                >
+                  {showBreakdown ? 'Hide' : 'Show'} Monthly Breakdown
+                </button>
+                {showBreakdown && (
+                  <MonthlyBreakdown valuesA={valuesA} resultsA={results.a} />
+                )}
               </>
             ) : (
               <div className="card placeholder">
@@ -166,6 +177,20 @@ function App() {
               labelA="Scenario A"
               labelB="Scenario B"
             />
+            <button
+              className="toggle-breakdown-btn"
+              onClick={() => setShowBreakdown(!showBreakdown)}
+            >
+              {showBreakdown ? 'Hide' : 'Show'} Monthly Breakdown
+            </button>
+            {showBreakdown && (
+              <MonthlyBreakdown
+                valuesA={valuesA}
+                valuesB={valuesB}
+                resultsA={results.a}
+                resultsB={results.b}
+              />
+            )}
           </>
         )}
 

@@ -338,6 +338,84 @@ header p {
   margin-bottom: 1rem;
 }
 
+/* Monthly Breakdown Table */
+.breakdown-table-wrapper h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #0B2D71;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.breakdown-table th,
+.breakdown-table td {
+  text-align: right;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.breakdown-table th:first-child,
+.breakdown-table td:first-child {
+  text-align: left;
+}
+
+.breakdown-table thead th {
+  background: #f3f4f6;
+  position: sticky;
+  top: 0;
+  font-weight: 600;
+}
+
+.scenario-header-a {
+  background: #e0f4fd !important;
+  text-align: center !important;
+}
+
+.scenario-header-b {
+  background: #e6f9ea !important;
+  text-align: center !important;
+}
+
+.breakdown-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+tr.breakeven-row,
+tr.breakeven-row td {
+  background: #7c3aed;
+  color: #fff;
+  font-weight: 700;
+}
+
+.toggle-breakdown-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem;
+  border: 2px solid #00A9E0;
+  border-radius: 8px;
+  background: transparent;
+  color: #00A9E0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.toggle-breakdown-btn:hover {
+  background: #00A9E0;
+  color: #fff;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .layout {
@@ -354,5 +432,9 @@ header p {
 
   .results-row {
     grid-template-columns: 1fr;
+  }
+
+  .breakdown-table {
+    min-width: 900px;
   }
 }

@@ -30,7 +30,8 @@ src/
 ├── components/
 │   ├── InputForm.jsx           — controlled form (values/onChange props); exports INPUT_DEFAULTS
 │   ├── Results.jsx             — results card (label/color props for comparison accent)
-│   └── CashFlowChart.jsx       — Recharts line chart (dataA/dataB for two scenarios)
+│   ├── CashFlowChart.jsx       — Recharts line chart (dataA/dataB for two scenarios)
+│   └── MonthlyBreakdown.jsx    — month-by-month table with breakeven highlighting
 └── utils/
     ├── calculations.js         — calculateROI() and formatPounds() pure functions
     └── validation.js           — validateInputs() and isValid() for real-time form validation
@@ -44,6 +45,7 @@ src/
 - **Chart merges datasets by array index** — both scenarios share the same period, so array lengths always match
 - **EPAM brand colors** — primary blue `#00A9E0`, dark blue `#0B2D71` (headings), green `#39B54A` (Scenario B / positive accents)
 - **Real-time validation** — errors derived on every render (no extra state); Calculate button disabled until all fields valid. Rules: investment >= £1,000, revenue > £0, costs >= 0, no empty fields
+- **Monthly breakdown table** — toggleable (on by default), shows month-by-month revenue/costs/net profit/cumulative CF; breakeven month highlighted with purple row (`#7c3aed`); comparison mode uses single combined table with grouped headers
 
 ## Commands
 
