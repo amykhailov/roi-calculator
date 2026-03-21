@@ -22,6 +22,7 @@ Core calculator implemented with two modes:
 2. **Comparison mode** — toggle "Compare two scenarios" for side-by-side evaluation with shared time period, dual result cards, and a combined two-line chart (EPAM blue for Scenario A, EPAM green for Scenario B)
 3. **Dark/Light theme** — toggle button (sun/moon icon) in top-right corner; session-only persistence (useState, no localStorage); all colors via CSS custom properties
 4. **PDF export** — "Export PDF" button in header, disabled until results exist. Uses html2canvas + jsPDF to capture results + chart with branded heading and date
+5. **Iframe embed** — "Embed" button in header opens modal with copyable `<iframe>` snippet. Loading with `?embed=true` hides chrome (header, compare toggle, action buttons) for clean embedded display
 
 ## Architecture
 
@@ -35,7 +36,8 @@ src/
 │   ├── Results.jsx             — results card (label/color props for comparison accent)
 │   ├── CashFlowChart.jsx       — Recharts line chart (dataA/dataB for two scenarios; colorA/colorB/theme props)
 │   ├── ThemeToggle.jsx         — sun/moon icon button (theme/onToggle props)
-│   └── MonthlyBreakdown.jsx    — month-by-month table with breakeven highlighting
+│   ├── MonthlyBreakdown.jsx    — month-by-month table with breakeven highlighting
+│   └── EmbedModal.jsx          — modal with copyable iframe embed snippet
 └── utils/
     ├── calculations.js         — calculateROI() and formatPounds() pure functions
     ├── validation.js           — validateInputs() and isValid() for real-time form validation
@@ -54,6 +56,7 @@ src/
 - **Real-time validation** — errors derived on every render (no extra state); Calculate button disabled until all fields valid. Rules: investment >= £1,000, revenue > £0, costs >= 0, no empty fields
 - **Monthly breakdown table** — toggleable (on by default), shows month-by-month revenue/costs/net profit/cumulative CF; breakeven month highlighted with purple row (`#7c3aed`); comparison mode uses single combined table with grouped headers
 - **PDF export** — `exportPdf(element)` captures a ref'd DOM region (results + chart) via html2canvas (scale: 2), then places the image into a jsPDF A4 document below a text heading ("ROI Analysis Report") and date. Monthly breakdown table is excluded from the PDF. Button is in the header, disabled when no results exist
+- **Iframe embed** — `EmbedModal` builds embed URL from `window.location.origin + pathname + '?embed=true'`. Modal has read-only textarea with iframe snippet, copy button with 2s "Copied!" feedback, closes on backdrop click or Escape. Embed mode (`?embed=true`) detected via `URLSearchParams` at module level in App.jsx; hides header, compare toggle, and top-right actions; adds `app--embed` class for reduced padding and full-width layout
 
 ## Workflow Rules
 

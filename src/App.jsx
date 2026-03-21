@@ -7,7 +7,10 @@ import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
 import MonthlyBreakdown from './components/MonthlyBreakdown';
 import ThemeToggle from './components/ThemeToggle';
+import EmbedModal from './components/EmbedModal';
 import './App.css';
+
+const isEmbed = new URLSearchParams(window.location.search).get('embed') === 'true';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -17,6 +20,7 @@ function App() {
   const [sharedPeriod, setSharedPeriod] = useState(12);
   const [results, setResults] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(true);
+  const [showEmbedModal, setShowEmbedModal] = useState(false);
   const exportRef = useRef(null);
 
   const handleExport = () => exportPdf(exportRef.current);
@@ -62,29 +66,38 @@ function App() {
   // Single mode
   if (!compareMode) {
     return (
-      <div className="app">
-        <div className="top-right-actions">
-          <button className="export-btn" disabled={!results} onClick={handleExport}>
-            Export PDF
-          </button>
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
-        </div>
-        <header>
-          <h1>ROI Calculator</h1>
-          <p>Calculate your Return on Investment</p>
-        </header>
+      <div className={`app${isEmbed ? ' app--embed' : ''}`}>
+        {!isEmbed && (
+          <div className="top-right-actions">
+            <button className="export-btn" onClick={() => setShowEmbedModal(true)}>
+              Embed
+            </button>
+            <button className="export-btn" disabled={!results} onClick={handleExport}>
+              Export PDF
+            </button>
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          </div>
+        )}
+        {!isEmbed && (
+          <header>
+            <h1>ROI Calculator</h1>
+            <p>Calculate your Return on Investment</p>
+          </header>
+        )}
 
-        <div className="compare-toggle">
-          <label className="toggle-label">
-            <input
-              type="checkbox"
-              checked={compareMode}
-              onChange={handleToggleCompare}
-            />
-            <span className="toggle-switch" />
-            Compare two scenarios
-          </label>
-        </div>
+        {!isEmbed && (
+          <div className="compare-toggle">
+            <label className="toggle-label">
+              <input
+                type="checkbox"
+                checked={compareMode}
+                onChange={handleToggleCompare}
+              />
+              <span className="toggle-switch" />
+              Compare two scenarios
+            </label>
+          </div>
+        )}
 
         <main className="layout">
           <div className="left-column">
@@ -125,6 +138,7 @@ function App() {
             )}
           </div>
         </main>
+        {showEmbedModal && <EmbedModal onClose={() => setShowEmbedModal(false)} />}
       </div>
     );
   }
@@ -133,29 +147,38 @@ function App() {
   const compareDisabled = !isValid(errorsA) || !isValid(errorsB);
 
   return (
-    <div className="app">
-      <div className="top-right-actions">
-        <button className="export-btn" disabled={!results} onClick={handleExport}>
-          Export PDF
-        </button>
-        <ThemeToggle theme={theme} onToggle={toggleTheme} />
-      </div>
-      <header>
-        <h1>ROI Calculator</h1>
-        <p>Calculate your Return on Investment</p>
-      </header>
+    <div className={`app${isEmbed ? ' app--embed' : ''}`}>
+      {!isEmbed && (
+        <div className="top-right-actions">
+          <button className="export-btn" onClick={() => setShowEmbedModal(true)}>
+            Embed
+          </button>
+          <button className="export-btn" disabled={!results} onClick={handleExport}>
+            Export PDF
+          </button>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
+      )}
+      {!isEmbed && (
+        <header>
+          <h1>ROI Calculator</h1>
+          <p>Calculate your Return on Investment</p>
+        </header>
+      )}
 
-      <div className="compare-toggle">
-        <label className="toggle-label">
-          <input
-            type="checkbox"
-            checked={compareMode}
-            onChange={handleToggleCompare}
-          />
-          <span className="toggle-switch" />
-          Compare two scenarios
-        </label>
-      </div>
+      {!isEmbed && (
+        <div className="compare-toggle">
+          <label className="toggle-label">
+            <input
+              type="checkbox"
+              checked={compareMode}
+              onChange={handleToggleCompare}
+            />
+            <span className="toggle-switch" />
+            Compare two scenarios
+          </label>
+        </div>
+      )}
 
       <main className="layout-compare">
         <div className="shared-period">
@@ -236,6 +259,7 @@ function App() {
           </div>
         )}
       </main>
+      {showEmbedModal && <EmbedModal onClose={() => setShowEmbedModal(false)} />}
     </div>
   );
 }
